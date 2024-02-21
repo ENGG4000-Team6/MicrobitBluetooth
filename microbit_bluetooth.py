@@ -1,17 +1,16 @@
-# Write your code here :-)
 from microbit import *
 import ubluetooth
 
-# Service name to be broadcasted
+# broadcasted name setup
 PERIPHERAL_NAME = "BioSync Dummy Device"
 SERVICE_UUID = ubluetooth.UUID("CD9CFC21-0ECC-42E5-BF22-48AA715CA112")
 CHARACTERISTIC_INPUT_UUID = ubluetooth.UUID("66E5FFCE-AA96-4DC9-90C3-C62BBCCD29AC")
 CHARACTERISTIC_OUTPUT_UUID = ubluetooth.UUID("142F29DD-B1F0-4FA8-8E55-5A2D5F3E2471")
 
-# Output characteristic is used to send the response back to the connected phone
+# Output characteristic to send the response back to android
 pOutputChar = None
 
-# Class defines methods called when a device connects and disconnects from the service
+# Called when a device connects/disconnects
 class ServerCallbacks:
     def __init__(self):
         pass
@@ -30,7 +29,7 @@ class InputReceivedCallbacks:
         inputValue = pCharWriteState.value()
         if inputValue:
             print("Received Value: " + inputValue.decode())
-            # Send data to client
+            # Send data to app
             outputData = "Last received: " + inputValue.decode()
             pOutputChar.value(outputData)
             pOutputChar.notify()
